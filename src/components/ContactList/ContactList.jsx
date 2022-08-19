@@ -1,7 +1,7 @@
 import ContactItem from 'components/ContactItem/ContactItem';
 import PropTypes from 'prop-types';
 
-import s from './contact-list.module.scss';
+import s from './contactList.module.scss';
 
 export default function ContactList({ contacts, onDeleteContact }) {
   return (

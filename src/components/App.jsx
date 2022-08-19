@@ -15,8 +15,7 @@ export class App extends Component {
     filter: '',
   };
 
-  onFormProps = data => {
-    // console.log(data);
+  addNewContact = data => {
     const newItem = {
       id: nanoid(),
       name: data.name,
@@ -70,7 +69,7 @@ export class App extends Component {
     return (
       <div className={s.app}>
         <h2>Phonebook</h2>
-        <Form onSubmit={this.onFormProps} />
+        <Form onSubmit={this.addNewContact} />
 
         <h2>Contacts</h2>
         <Filter filterEl={filter} onChange={this.onHandleFilter} />
