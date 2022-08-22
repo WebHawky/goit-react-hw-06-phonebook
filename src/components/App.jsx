@@ -6,14 +6,25 @@ import s from './app.module.scss';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const contactList = JSON.parse(localStorage.getItem('contacts'));
+
+    if (contactList) {
+      this.setState({ contacts: contactList });
+    }
+
+    console.log(contactList);
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   addNewContact = data => {
     const newItem = {
@@ -53,7 +64,6 @@ export class App extends Component {
   // };
 
   onHandleDelete = contactId => {
-    console.log(contactId);
     this.setState(({ contacts }) => {
       const newContacts = contacts.filter(contact => contact.id !== contactId);
 
