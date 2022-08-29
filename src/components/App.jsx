@@ -7,7 +7,7 @@ import s from './app.module.scss';
 const PARSED_DATA = JSON.parse(localStorage.getItem('contacts'));
 
 export default function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(PARSED_DATA);
   const [filter, setFilter] = useState('');
 
   const addNewContact = data => {
@@ -55,7 +55,6 @@ export default function App() {
     <div className={s.app}>
       <h2>Phonebook</h2>
       <Form onSubmit={addNewContact} />
-
       <h2>Contacts</h2>
       <Filter filterEl={filter} onChange={onHandleFilter} />
       <ContactList

@@ -9,6 +9,7 @@ export default function Form({ onSubmit }) {
 
   const handleChange = e => {
     const { name, value } = e.target;
+
     switch (name) {
       case 'name':
         setName(value);
@@ -31,10 +32,8 @@ export default function Form({ onSubmit }) {
   };
 
   const reset = () => {
-    const setName = '';
-    const setNumber = '';
-    console.log(setName);
-    console.log(setNumber);
+    setName('');
+    setNumber('');
   };
   const id = { nanoid };
 
