@@ -33,6 +33,8 @@ export default function Form({ onSubmit }) {
   const reset = () => {
     const setName = '';
     const setNumber = '';
+    console.log(setName);
+    console.log(setNumber);
   };
   const id = { nanoid };
 
