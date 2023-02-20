@@ -1,35 +1,42 @@
-import ContactItem from 'components/ContactItem/ContactItem';
-import PropTypes from 'prop-types';
+import { RiDeleteBin5Line } from 'react-icons/ri';
+import { useSelector, useDispatch } from 'react-redux/es/exports';
+import { deleteContact } from 'redux/contactsActions';
+import s from './ContactList.module.css';
 
-import s from './contactList.module.scss';
+const ContactList = () => {
+    const contacts = useSelector(state => state.items);
+    const filter = useSelector(state => state.filter);
+    const dispatch = useDispatch();
 
-export default function ContactList({ contacts, onDeleteContact }) {
-  return (
-    <ul className={s.list}>
-      {contacts.map(({ name, number, id }) => {
-        return (
-          <li key={id} className={s.list_item}>
-            <ContactItem userName={name} phone={number} />
-            <button
-              onClick={() => onDeleteContact(id)}
-              className={s.list_button}
-            >
-              Delete
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
+    const onDelete = id => {
+        dispatch(deleteContact(id));
+    };
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-  onDeleteContact: PropTypes.func.isRequired,
+    const visibleList = contacts.filter(({ name }) =>
+        name.toLowerCase().includes(filter)
+    );
+
+    return visibleList.length > 0 ? (
+        <ul className={s.list}>
+            {visibleList.map(({ name, number, id }) => (
+                <li className={s.item} key={id}>
+                    <p>
+                        {name} : {number}
+                    </p>
+                    <button
+                        className={s.button}
+                        type="button"
+                        title="delete contact"
+                        onClick={() => onDelete(id)}
+                    >
+                        <RiDeleteBin5Line size="25" />
+                    </button>
+                </li>
+            ))}
+        </ul>
+    ) : (
+        <div className={s.list}>You haven't contacts yet</div>
+    );
 };
+
+export default ContactList;

@@ -1,66 +1,17 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
+import ContactForm from './ContactForm/ContactForm';
+import ContactList from './ContactList/ContactList';
+import Filter from './Filter/Filter';
 
-import { Form, Filter, ContactList } from './index';
-import s from './app.module.scss';
-
-const PARSED_DATA = JSON.parse(localStorage.getItem('contacts'));
-
-export default function App() {
-  const [contacts, setContacts] = useState(PARSED_DATA);
-  const [filter, setFilter] = useState('');
-
-  const addNewContact = data => {
-    const newItem = {
-      id: nanoid(),
-      name: data.name,
-      number: data.number,
-    };
-
-    const contactExist = contacts.some(
-      ({ name, number }) => name === newItem.name || number === newItem.number
+const App = () => {
+    return (
+        <div className="app">
+            <h1>Phonebook</h1>
+            <ContactForm />
+            <h2>Contacts</h2>
+            <Filter />
+            <ContactList />
+        </div>
     );
-    if (contactExist) {
-      alert(`${newItem.name} is already exist in your contact list`);
-    } else {
-      setContacts(prevState => [...prevState, newItem]);
-    }
-  };
+};
 
-  const onHandleFilter = e => {
-    setFilter(e.target.value);
-  };
-
-  const onHandleVisibleContacts = () => {
-    return contacts.filter(contact => {
-      return contact.name.toLowerCase().includes(filter.toLowerCase());
-    });
-  };
-
-  const onHandleDelete = contactId => {
-    setContacts(contacts.filter(contact => contact.id !== contactId));
-  };
-
-  useEffect(() => {
-    if (!PARSED_DATA) {
-      setContacts(PARSED_DATA);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  return (
-    <div className={s.app}>
-      <h2>Phonebook</h2>
-      <Form onSubmit={addNewContact} />
-      <h2>Contacts</h2>
-      <Filter filterEl={filter} onChange={onHandleFilter} />
-      <ContactList
-        contacts={onHandleVisibleContacts()}
-        onDeleteContact={onHandleDelete}
-      />
-    </div>
-  );
-}
+export default App;
